@@ -1,6 +1,18 @@
 ---
-title: "Welcome to my site!"
+title:  "Lockkey: Technical analysis of a Golang-Ransomware."
 layout: post
 ---
 
-Hi, there, I am Priya Patel, a fresh-grad, with an previous experience of embedded engineering oriented projects and minimalistic projects on NUMPY and various other interesting libraries. I am quite comfortable with Python & C++, and I have previously worked with writing file parsers.
+
+
+## Table Of Contents
+
+- Background.
+- Metadata.
+- Basic Static Analysis.
+- Looking into the code using IDA-Freeware.
+- Workflow.
+- YARA Rule.
+- MITRE ATT&CK.
+- Author's two cents.
+- Resources.
