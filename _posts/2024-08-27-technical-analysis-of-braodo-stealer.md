@@ -28,9 +28,11 @@ In this phase, we will cover the technical analysis of the Braodo Stealer.
 ### Metadata
 
 SHA-256 : `d90093eee7254776177bfd5833aee65cdf8980344d20f8366ab4ab5879b69549`
+
 File-Name : `Number of people and time for this vacation.bat`
 
 SHA-256 : `641f2db9e9fb8255337672fb8da9226225fa8e393b651c7c7ebbb5b555d4b755`
+
 File-Name : `sim.py`
 
 
