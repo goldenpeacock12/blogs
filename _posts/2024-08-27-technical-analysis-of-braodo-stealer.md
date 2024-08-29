@@ -61,6 +61,13 @@ The third Powershell command is extracting the zip archive and saving it in the 
 The last PowerShell command is running the `sim.py` file,  using the python executable. 
 Now, we know that a file known as `sim.py` is being run, we will extract the file from the ZIP and then, look into the malicious second-stager.
 
+### Second stager analysis
+
+![image](https://github.com/user-attachments/assets/fa1555f2-9c9e-4800-aab4-1f1597f4a807)
+
+
+
+
 
 
 
