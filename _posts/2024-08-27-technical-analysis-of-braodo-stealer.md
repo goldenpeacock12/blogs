@@ -63,7 +63,80 @@ Now, we know that a file known as `sim.py` is being run, we will extract the fil
 
 ### Second stager analysis
 
-![image](https://github.com/user-attachments/assets/fa1555f2-9c9e-4800-aab4-1f1597f4a807)
+
+![image](https://github.com/user-attachments/assets/e82a3e08-8070-4119-bd1c-bfb5470cf55f)
+
+
+As we can see the Python Stealer is targeting various browsers for credential stealing, and the stealer is using Telegram bot for exfiltration of stolen credentials. So, let us check out the key functions of this stealer. 
+
+
+#### Chrome Credentials Stealing
+
+![image](https://github.com/user-attachments/assets/42966e64-9b38-491b-88a4-330c383a3d92)
+
+
+As we can see on the script that this stealer is targeting Chrome browser by initially creating a folder known as `Chrome` and then it goes ahead and copies important and sensitive files such as Local State , Cookies and Login data and passes the data to a function known as `encrypt`. Now let us check the working of the encrypt function.
+
+![image](https://github.com/user-attachments/assets/600b3531-ea7f-4378-aa70-ee457f00c76d)
+
+![image](https://github.com/user-attachments/assets/00435315-5057-4f05-90ea-370a94d071b8)
+
+![image](https://github.com/user-attachments/assets/e8748626-04d8-4bb6-bf03-6beb46fd3f61)
+
+
+
+Initially the encrypt function goes ahead and loads the local state file which is basically a JSON file so it uses json.load function to parse the file and then decodes the key from the encrypt_key element using base64 decoding, further it decrypt the encrypted data or the data blob using `CryptUnprotectData` API. Then it goes ahead and saves the decrypted key into a file known as `master_key.txt` . Then it connects to SQLite database and then collect the cookies for Facebook and then stores the cookies to a file for further exfiltration.
+
+
+#### Firefox Credentials Stealing
+
+
+![image](https://github.com/user-attachments/assets/2f0bd959-f968-45a1-aa2b-6f028ffe05d3)
+
+The stealer enumerates all the Firefox profiles, then it goes ahead and copies sensitive files such as `cookies.sqlite` , `key4.db` and `logins.json` and then it further copies all the data for encryption and decryption using the same function as above. 
+
+
+#### Edge Credentials Stealing
+
+![image](https://github.com/user-attachments/assets/57f2bd39-6aeb-43c2-8454-128eb14df9da)
+
+The stealer enumerates all the profiles for Microsoft Edge browser and then it further goes and copies the `Cookies` , `Login data` , `Web data` , `Local State` into the directory known as `Edge` and then it goes ahead and further passes the data for encryption and decryption.
+
+
+#### Other Browsers
+
+
+![image](https://github.com/user-attachments/assets/19c9c335-4d6d-40ba-bda5-91a35ce6de50)
+
+![image](https://github.com/user-attachments/assets/e75f9219-f564-4746-880a-21d1ddc6d8e5)
+
+![image](https://github.com/user-attachments/assets/4a44eeff-e1d8-4476-883a-8a820a0647fb)
+
+
+Similar to previous browsers the stealer also targets `Opera Browser` , `Brave Browser` and `Chromium Browser` where it creates a specific folder , copies sensitive data and further encrypts and decrypts it and saves it for exfiltration.
+
+
+#### Miscellaneous
+
+
+![image](https://github.com/user-attachments/assets/4a2788d8-0a0e-4193-b3cc-09d6f9f70ff7)
+
+![image](https://github.com/user-attachments/assets/35c0362b-80df-43ac-b413-67863ac5ac34)
+
+![image](https://github.com/user-attachments/assets/a767dc5a-65ea-41b4-8759-53881347989d)
+
+Once it has completed stealing all the sensitive information and then it goes ahead and saves all the information in a ZIP file and exfiltrates the data over Telegram bot with unique identification of the victim such as name of the country , city , state along with user name and windows version attached for better identification of the victim.
+
+
+## Features
+
+- Browser Cookie stealing .
+- Browser Password Stealing .
+- Task Enumeration.
+- Telegram based exfiltration.
+
+
+
 
 
 
