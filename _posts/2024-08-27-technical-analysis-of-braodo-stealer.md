@@ -36,4 +36,33 @@ SHA-256 : `641f2db9e9fb8255337672fb8da9226225fa8e393b651c7c7ebbb5b555d4b755`
 File-Name : `sim.py`
 
 
+### First stager analysis.
+
+Once we started to analyze the sample post downloading we found out that first-stager is a  malicious batch script, let us now look into the malicious script and analyze it.
+
+![image](https://github.com/user-attachments/assets/2e071bb9-4bc4-4abd-903e-7fff0f457d95)
+
+We can see that the batch script is filled or obfuscated with garbage code and upon removing the garbage code, I found that the actual script is basically spawning PowerShell along with some arguments.
+
+![image](https://github.com/user-attachments/assets/68172c7b-3458-4c01-bd1c-b99324f6f936)
+
+So, upon cleaning we can see that the first PowerShell command is downloading the file `update1.bat`, which was then saved into Startup folder, I found out and was confused on why it is storing the batch script to Startup folder, it turns out that the script was running a python file everytime, when the computer boots.
+
+![image](https://github.com/user-attachments/assets/57ab14fa-ef6b-4cba-853d-6e87b5e06f05)
+
+The second command is downloading a ZIP file which can be seen as `145.zip`, this zip file is saved at the Public folder with a filename of `Document.zip`.
+
+![image](https://github.com/user-attachments/assets/137ee7bf-f58e-452d-9a3e-3e1b01f0900d)
+
+The third Powershell command is extracting the zip archive and saving it in the Document folder.
+
+![image](https://github.com/user-attachments/assets/6b95c529-6564-49ed-bd8f-248a072f02ca)
+
+The last PowerShell command is running the `sim.py` file,  using the python executable. 
+Now, we know that a file known as `sim.py` is being run, we will extract the file from the ZIP and then, look into the malicious second-stager.
+
+
+
+
+
 
