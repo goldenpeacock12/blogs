@@ -135,7 +135,9 @@ Once it has completed stealing all the sensitive information and then it goes ah
 - Task Enumeration.
 - Telegram based exfiltration.
 
+## Conclusion
 
+Thank you reader, for reading my blog, I have just started my journey with malware analysis, if you find something wrong please feel free to reach me out, thank you once again for reading.
 
 
 
