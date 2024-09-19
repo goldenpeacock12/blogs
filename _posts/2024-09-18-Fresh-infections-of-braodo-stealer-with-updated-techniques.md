@@ -13,4 +13,3 @@ categories: malware-analysis
     - Abusing .bmp file.
     - Abusing Dropbox services.
 - Conclusion.
-- 
