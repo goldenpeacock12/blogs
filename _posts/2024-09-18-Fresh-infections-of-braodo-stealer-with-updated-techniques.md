@@ -18,3 +18,10 @@ categories: malware-analysis
 
 
 Hi readers, hope you enjoyed my last blog on Braodo Stealer, as a newbie and as I'm just getting started I have decided to track the same, so recently I found that Braodo Stealer is back with a bunch of changes on their arsenal , which includes adding Base64 encoding along with renaming variable names and then abusing an open source obfuscator known as Abobas-Obfuscator. Well, the last but not the least that's using different file formats like .bmp and abusing Dropbox services for payload delivery.
+
+## Technical Analysis.
+
+In this phase, we will know different methods that this stealer uses to download the payload and run the malware code in the system
+
+### Metadata
+
