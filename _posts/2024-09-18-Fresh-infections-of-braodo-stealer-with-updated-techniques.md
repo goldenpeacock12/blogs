@@ -11,6 +11,8 @@ categories: malware-analysis
     - Abusing .bmp file format.
     - Encoding and Obfuscation.
     - Abusing Dropbox services.
+	- Abusing WHL packages. 
+- IOCs.
 - Conclusion.
 
 ## Background
@@ -20,7 +22,7 @@ Hi readers, hope you enjoyed my last blog on Braodo Stealer, as a newbie and as 
 
 ## Technical Analysis.
 
-In this phase, we will know different methods that this stealer uses to download the payload and run the malware code in the system
+In this phase, we will know different methods that this stealer uses to download the payload from various sources and executes the malicious python file. 
 
 
 ### Abusing .bmp file format.
@@ -34,13 +36,13 @@ So, we can see that there is encoded garbage blob present inside the bmp payload
 
 ### Encoding and obfuscation.
 
-Another interesting development among stealer arsenal, that it has been using an open source obfuscator,known as abobus obfuscator.we found the name of the obfuscator as it is present in one of the sample.
+Another interesting development among the stealer arsenal is it has been using an open source obfuscator,known as [Abobus obfuscator](https://github.com/EscaLag/Abobus-obfuscator/blob/main/AbobusObf.py) as we found the name of the obfuscator as it is present in one of the sample with the name of the author.
 
 ![image](https://github.com/user-attachments/assets/0d2dae90-19d0-4d1d-b143-6ae11d6843ee)
 
-the way this obfuscator works is by adding garbage values to the batch script then performing character encoding and by changing the cases of the alphabets in a random manner. The way the sample deobfuscates and runs in memory is by changing the code page by using chcp windows utility and chnaging the code page to english which further faciliates the execution of the malicious batch script which downloads the zip payload from either dropbox or github. As this is an open source obfuscator it was quite easy to understand and perform the deobfuscation.
+The way this obfuscator works is by adding garbage values to the batch script then performing character encoding and by changing the cases of the alphabets in a random manner and many such pseduo obfuscation techniques . The way the sample deobfuscates and runs in memory is by initially changing the code page by using `chcp` windows utility and chnaging the code page to English which further faciliates the execution of the malicious batch script which then downloads the ZIP payload. As this is an open source obfuscator it was quite easy to understand and perform the deobfuscation.
 
-the extracted config is as follows:
+The extracted config is as follows:
 
 ```
 [net.servicepointmanager]::securityprotocol = [net.securityprotocoltype]::tls12
@@ -50,12 +52,12 @@ the extracted config is as follows:
  
 ### Abusing Dropbox services.
 
-as we know that the primary technique of braodo stealer is to store the final payload over github, but recently in one of the campaign which was obfuscated with abobus obfuscator was dropping a document as a lure . The document was mainly focused on online marketing of shooes. 
+As we know that the primary technique of Braodo stealer is to store the final payload over Github, but recently in one of the campaigns which was obfuscated with Abobus obfuscator was dropping a document as a lure . The document was mainly focused on online marketing of shoes and similar marketing gimmicks were present. 
 
 
 ![image](https://github.com/user-attachments/assets/7a8ed849-736e-4b87-92aa-3f92b0f4ca36)
 
-So , post the lure did open on the screen, i deobfuscated and found out that this campaign is using dropbox services to download the payload and also adding a registry key as persistance. the extracted configs are as follows:
+So , once the lure was popped up on the screen, I de-obfuscated and found out that this campaign is using Dropbox services to download the payload and also adding a registry key as persistance. The extracted configs are as follows:
 
 ```
 [net.servicepointmanager]::securityprotocol = [net.securityprotocoltype]::tls12
