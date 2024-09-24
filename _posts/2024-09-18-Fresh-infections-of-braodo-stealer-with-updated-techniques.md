@@ -11,7 +11,7 @@ categories: malware-analysis
     - Abusing .bmp file format.
     - Encoding and Obfuscation.
     - Abusing Dropbox services.
-	- Abusing WHL packages. 
+    - Abusing WHL packages. 
 - IOCs.
 - Conclusion.
 
@@ -71,7 +71,35 @@ So , once the lure was popped up on the screen, I de-obfuscated and found out th
 
 ### Abusing whl package
 
+![image](https://github.com/user-attachments/assets/e1053b08-c546-4960-acd8-8b35cfb6c815)
+
+![image](https://github.com/user-attachments/assets/3a0e9466-56f0-407a-b11f-3ae40bd1ac5c)
+
+Recently I found out that instead of delivering obfuscated batch files in a fresh campaign , the braodo stealer guys have started to deliver python whl packages which upon execution downloads the files from Github which involves the batch script masquareded in form of bmp file format and the ZIP file containing the actual malicious python file. 
+
+![image](https://github.com/user-attachments/assets/8c501e69-4cb2-4954-846e-30b772ea0431)
+
+so then I went ahead and downloaded the payloads. 
+
+![image](https://github.com/user-attachments/assets/13fa8e80-c476-4451-94c0-8c329b2fec99)
+
+![image](https://github.com/user-attachments/assets/a7fd4cb2-20c7-4ff7-b8e6-bdfa427ee0f4)
+
+Once again it turns out that it is abusing bmp file format which has a batch script inside it which runs the `sim.py` file which is actually the infostealer.
+
+## IOCs.
+
+- e314fc6308c31b600eb43fee5e4716034375f0a7e6916326c605ec955ead5757
+- dba09794ee80639df8633b23219d29976bd7fabcb60db063023f3ba8f9cc1c9b
+- a93d56fde501f5341c1c84e5a1f2f17253bbcada088898b2cb3df35c9ff68b93
+- 4d7892ce5812d01041cdeff95bc622dda3f6bb3add64045eb15ce73215080b52
+- 1393332ec07088ea36ad7002528a5e80a16615e92898a56f2e427c004f718bcb
+
+
+
 ## Conclusion.
+
+Thanks everyone for reading the blog up to here, thanks to Yogesh for helping me to track improvements in Braodo stealer's arsenal . This was one of a very brief attempt on understanding the changes. Please do let me know if you find any issues or feedback regarding the blog. 
 
 
 
