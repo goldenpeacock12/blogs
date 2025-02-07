@@ -9,23 +9,26 @@ date_format: "%B %d, %Y"
 # Layout
 
 show_excerpts: false        # show article excerpts on the home page
-show_frame: true           # adds a gray frame to the site
-show_sidebar: false       # show a sidebar instead of the usual header
+show_frame: true            # adds a gray frame to the site
+show_sidebar: false         # show a sidebar instead of the usual header
 minimal: false  
-show_social: true # use a dark header
+show_social: true           # use a dark header
 
 # Menu
 
 navigation:                # accepts {file, title, url, icon, sidebaricon}
-  - {file: "index.html", title : "Research and Development", icon: home}
-  - {file: "README.md", title :"About me", icon : address-card}
+  - {file: "index.html", title: "Research and Development", icon: home}
+  - {file: "README.md", title: "About me", icon: address-card}
+  - {file: "non-pe-malware.html", title: "Non-PE Malware", icon: bug} # Added new menu item
 
 external:                  # shows a footer with social links - for available icons see fontawesome.com/icons
   - {title: Mail, icon: envelope, url: "mailto:priyapatel2132@outlook.com"}
   - {title: Github, icon: github, url: "https://github.com/prii308"}
-  - {title: Linkedin, icon: LinkedIN, url: "https://www.linkedin.com/in/priya-patel-2b2950285"}
+  - {title: Linkedin, icon: linkedin, url: "https://www.linkedin.com/in/priya-patel-2b2950285"}
+
+# Comments and Plugins
 
 comments:
 
 plugins:
- - jekyll-feed
+  - jekyll-feed
