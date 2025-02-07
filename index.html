@@ -3,8 +3,11 @@ layout: default
 title: "About me "
 ---
 
-{% if site.show_excerpts %}
-  {% include home.html %}
-{% else %}
+{% if page.title == "Non-PE Malware" %}
   {% include archive.html title="My Works" %}
+{% else %}
+  <div class="homepage-content">
+    <h1>Welcome to My Site</h1>
+    <p>This is my personal website where I share my research and projects.</p>
+  </div>
 {% endif %}
