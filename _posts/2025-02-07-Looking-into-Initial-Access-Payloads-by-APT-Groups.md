@@ -25,3 +25,6 @@ categories: ["Non-PE Malware"]
 
 I recently started learning about maldoc analysis as part of my malware analysis journey. During this process, I explored different APT groups, including SideWinder( 🇮🇳 ), Kimsuky ( 🇰🇵 ) , and Gamaredon ( 🇷🇺 ). I analyzed their samples, focusing on how they gain initial access. To conduct my research, I used platforms like VirusTotal, Twitter, and MalwareBazaar to find and study real-world malware samples.So, I am writing this blog which contains my findings for the same.
 
+## Motivation
+
+My motivation is to explore different areas of malware analysis and gain a deeper understanding of how cyber threats operate. By researching various APT groups, I can learn about different initial access techniques used by attackers. This helps in understanding the diverse ways cybercriminals infiltrate systems. The more APT groups I analyze, the better I can recognize attack patterns and improve threat detection skills. My goal is to continuously expand my knowledge in Malware Analysis Threat Research.
