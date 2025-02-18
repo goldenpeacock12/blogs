@@ -19,3 +19,7 @@ categories: ["Non-PE Malware"]
 - IOCs.
 - Limitations.
 - MITRE ATT&CK.
+
+## Introduction
+![image](https://github.com/user-attachments/assets/b975d5f5-9074-4bd4-b747-efbaaa380ffd)
+
