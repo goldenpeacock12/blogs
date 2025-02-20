@@ -68,7 +68,9 @@ LNK File Structure Analysis :
     - `HasArguments`: 
     When `HasArguments` is set, it means the LNK file has extra parameters (Command -line arguments) that will be executed when the shortcut is opened.
     - `EnableTargetMetadata`: Allows retrieving metadata for the target file.
+      
 - Target Execution Path:
+  
   ![image_kimsuky](https://github.com/user-attachments/assets/88a27a9c-a177-4722-a1d2-186294f46347)
 
 - **LinkTargetIDList →** `CLSID_MyComputer\C:\Windows\System32\mshta.exe`
