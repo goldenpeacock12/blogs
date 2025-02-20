@@ -107,3 +107,5 @@ This JavaScript code is trying to run a hidden **PowerShell command** using `msh
 - The script **runs `d.ps1` using PowerShell**, which could be another piece of malware.
 - It also calls another unknown program (`b21111`), which might be part of the attack.
 
+Then, after researching the d.ps1 file, I found that it is obfuscated, which further on de-obfuscating, I found it has been downloading another ZIP file containing malware known as gs.zip , which contains the final payload.
+
