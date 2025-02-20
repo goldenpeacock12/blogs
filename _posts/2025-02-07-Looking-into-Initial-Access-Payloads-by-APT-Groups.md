@@ -12,6 +12,7 @@ categories: ["Non-PE Malware"]
     - Case 1 : Sidewinder using malicious document to drop RTF Payload.
     - Case 2 : Kimsuky using malicious LNK file to drop PowerShell payload.
     - Case 3 : Gamaredon using HTA to drop further malware.
+    - Case 4 : 
 - YARA Rule.
     - Detecting Maldoc.
     - Detecting LNK.
@@ -131,4 +132,81 @@ Now, let's analyze this script further to understand its purpose and behavior.
 This script basically accesses the **Windows Shell** and runs `mshta.exe`. The likely reason for using `mshta.exe` is to execute the script **without triggering any security warnings**.
 
 Additionally, the script contains a **remote URL** that appears to download a file with a `.tif` extension. However, I suspect that this is actually a **malicious payload** being fetched from a **C2 server** rather than a legitimate image file.
+
+# YARA Rule
+I am learning YARA rules for the first time, so I have written this rule to detect three malicious files. It works by searching for basic strings within the file.
+
+### Detecting Maldoc.
+    
+    rule sidewinder
+    {
+        meta:
+            aurhor = "Priya"
+            description = "This rule detects malicious sidewinder payload"
+    
+        strings:
+            $url_name = "https://pubad-gov-lk.org-co.net/10472857/"
+            $rtf_name = "Profile.rtf"
+    
+        condition:
+            $url_name or $rtf_name
+    }
+    
+### Detecting LNK.
+
+    rule detect_lnk
+    {
+
+    meta:
+        author = "Priya"
+        description = "This yara rule detects malicious lnk file"
+
+    strings:
+        $filename = "d.ps1"
+        $filesize = "0x1be8"
+        $susnname = "jooyoung"
+
+    condition:
+        any 2 of them
+    }
+    
+### Detecting HTA.
+
+    rule hta_file 
+    {
+    meta:
+        author = "Priya"
+        Description = "This rule is to check for malicious hta file"
+
+    strings:
+        $url_name = "trycloudflare"
+        $payload = "shortlyqXW.tif"
+        $ip_add = "102.237.232.209"
+        $login = "https://passport.i.ua/login/?"
+
+    condition:
+        
+        $url_name and $payload or $ip_add or $login
+    }
+
+### IOCs.
+
+```268640934dd1f0cfe3a3653221858851a33cbf49a71adfb4d54a04641df11547```
+
+```47d77499968244911d0179fb858578de00dbb98079e33f5ed5d229d03eb04d67```
+
+```95f5db1826819d8d61b85eec206ec6cba350ba3fd684941ae24fe363de1df2cb```
+
+### Limitations
+
+Thank you everyone for reading my small blog, as you know I have just started to write research as I finally complete my graduation. So, there might be places, where I may be wrong, please do let me know if you find anything wrong, thank you for reading, stay tuned for more blogs on malware analysis 
+
+### References
+
+https://x.com/bofheaded/status/1888546141886976322
+
+https://x.com/malwrhunterteam/status/1890038780683534771
+
+https://x.com/suyog41/status/1891372873496834115
+  
 
