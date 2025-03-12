@@ -18,6 +18,8 @@ categories: network-analysis
   - Panel 3 - Lethalvoid
 - Conclusion.
 
+![blog_cover](https://github.com/user-attachments/assets/27222411-c859-45cc-8bdc-ec7f2db8b1d2)
+
 ## Introduction
 
 Hello everyone! This time, I decided to explore **network hunting** and analyze some **malicious IPs, stealer panels, and a suspicious website**.
