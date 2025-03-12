@@ -17,8 +17,10 @@ categories: network-analysis
   - Panel 2 - Amatera Stealer
   - Panel 3 - Lethalvoid
 - Conclusion.
+  
 
-![blog_cover](https://github.com/user-attachments/assets/27222411-c859-45cc-8bdc-ec7f2db8b1d2)
+![cover](https://github.com/user-attachments/assets/f67994e3-e052-413a-b89d-bb23c3a95d45)
+
 
 ## Introduction
 
