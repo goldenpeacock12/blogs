@@ -1,5 +1,5 @@
 ---
-title:  "Analyzing numec ransomware"
+title:  "Numec : A new ransomware in wild."
 layout: post
 categories: malware-analysis
 ---
