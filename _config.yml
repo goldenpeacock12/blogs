@@ -1,5 +1,5 @@
-title: "Research and Development"
-author: "Priya"
+title: "Threat Intelligenece and Analysis"
+author: "Babyjohn"
 description: "Written with <b style=\"color: #f45;\">&lt;3</b>"
 permalink: /:title/
 lang: "en"
@@ -22,9 +22,9 @@ navigation:                # accepts {file, title, url, icon, sidebaricon}
   #- {file: "non-pe-malware.html", title: "Non-PE Malware", icon: bug} # Added new menu item
 
 external:                  # shows a footer with social links - for available icons see fontawesome.com/icons
-  - {title: Mail, icon: envelope, url: "mailto:priyapatel2132@outlook.com"}
-  - {title: Github, icon: github, url: "https://github.com/prii308"}
-  - {title: Linkedin, icon: linkedin, url: "https://www.linkedin.com/in/priya-patel-2b2950285"}
+  - {title: Mail, icon: envelope, url: "mailto:goldenjackel121212@gmail.com"}
+  - {title: Github, icon: github, url: "https://github.com/goldenpeacock12"}
+  # - {title: Linkedin, icon: linkedin, url: "https://www.linkedin.com/in/priya-patel-2b2950285"}
 
 # Comments and Plugins
 
