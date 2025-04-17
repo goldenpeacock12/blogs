@@ -7,12 +7,12 @@ This post is a treasure chest (or maybe a dumpster fire?) of various dark web li
 
 **Onion Websites Links, Search Engines & Indexers - Clearnet**
 
-***Onion Engine** - _https://onionengine.com/_ \
-***Tor Links** - _https://torlinks.net/_ \
-***Dark Fail** - _https://dark.fail/_ \
-***Darkweb Daily** - _https://darkwebdaily.live/_ \
-***Darkweb Links** - _https://darkweblinks.com_ \
-***OnionLink Hub** - _https://www.onionlinkhub.com/links/_ \
-***Daunt** - _https://daunt.link/_ \
-***VowmWeb** - _https://vormweb.de/en/_ \
+* **Onion Engine** - _https://onionengine.com/_ \
+* **Tor Links** - _https://torlinks.net/_ \
+* **Dark Fail** - _https://dark.fail/_ \
+* **Darkweb Daily** - _https://darkwebdaily.live/_ \
+* **Darkweb Links** - _https://darkweblinks.com_ \
+* **OnionLink Hub** - _https://www.onionlinkhub.com/links/_ \
+* **Daunt** - _https://daunt.link/_ \
+* **VowmWeb** - _https://vormweb.de/en/_ \
 ***Darkweb Archives** - _https://eb-archive.activetk.jp/_   
